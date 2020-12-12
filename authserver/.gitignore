@@ -4,6 +4,11 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+## Private and publi keys and certificates (see README.md file)
+/src/main/resources/gte.jks
+/key.cer
+/pub.key
+
 ### STS ###
 .apt_generated
 .classpath

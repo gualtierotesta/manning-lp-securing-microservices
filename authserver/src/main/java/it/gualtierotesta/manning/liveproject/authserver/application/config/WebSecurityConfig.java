@@ -3,6 +3,7 @@ package it.gualtierotesta.manning.liveproject.authserver.application.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +15,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * Web security configuration
  *
  * @author gualtiero.testa
- *
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -49,5 +49,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        // Present a login form for unauthenticated access
+        // required in the Authorization Code flow
+        http.formLogin();
     }
 }
