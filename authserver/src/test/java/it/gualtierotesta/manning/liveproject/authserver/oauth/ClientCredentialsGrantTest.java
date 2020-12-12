@@ -1,4 +1,4 @@
-package it.gualtierotesta.manning.liveproject.authserver;
+package it.gualtierotesta.manning.liveproject.authserver.oauth;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,7 +30,7 @@ class ClientCredentialsGrantTest {
             .queryParam("grant_type", "client_credentials")
             .queryParam("scope", "info")
             .with(httpBasic(CLIENT_ID, CLIENT_SECRET)))
-            .andDo(MockMvcResultHandlers.print())
+            // .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.access_token").isNotEmpty())
             .andExpect(jsonPath("$.refresh_token").doesNotExist())
             .andExpect(status().isOk());
