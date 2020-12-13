@@ -1,5 +1,6 @@
 package it.gualtierotesta.manning.liveproject.authserver.adapter.storage;
 
+import it.gualtierotesta.manning.liveproject.authserver.domain.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "users")
-public class UserEntity {
+class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,4 +18,20 @@ public class UserEntity {
     private String password;
     private String authority;
 
+    static UserEntity from(final User pUser) {
+        UserEntity entity = new UserEntity();
+        entity.username = pUser.getUsername();
+        entity.password =pUser.getPassword();
+        entity.authority=pUser.getAuthority();
+        return entity;
+    }
+
+     User map() {
+        return User.builder()
+            .userId(id)
+            .username(username)
+            .password(password)
+            .authority(authority)
+            .build();
+    }
 }

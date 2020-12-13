@@ -1,23 +1,35 @@
 package it.gualtierotesta.manning.liveproject.authserver.adapter.rest;
 
 import it.gualtierotesta.manning.liveproject.authserver.application.port.in.UsersServicePort;
-import it.gualtierotesta.manning.liveproject.authserver.domain.AppUser;
+import it.gualtierotesta.manning.liveproject.authserver.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UsersServicePort usersService;
 
     @GetMapping("")
-    public Collection<AppUser> listAllUsers() {
-        return usersService.listAll();
+    public ResponseEntity<Collection<User>> listAllUsers() {
+        log.debug("listAllUsers");
+        return ResponseEntity.ok(usersService.listAll());
     }
+
+    @PostMapping("")
+    public ResponseEntity<User> addUser(
+        @RequestBody final NewUserPayload pPayload ) {
+
+        log.debug("create new user: {}",pPayload);
+        return ResponseEntity.ok(usersService.createNewUser(pPayload.map()));
+    }
+
+
 }

@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class AppUser {
+public class User {
 
     Long userId;
     String username;

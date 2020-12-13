@@ -26,8 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public UserDetailsService uds() {
-        var uds = new InMemoryUserDetailsManager();
-        var u = User.withUsername("john")
+        final var uds = new InMemoryUserDetailsManager();
+        final var u = User.withUsername("john")
             .password("12345")
             .authorities("read")
             .build();
@@ -52,10 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
 
-        // Present a login form for unauthenticated access
-        // required in the Authorization Code flow
+        http.csrf(c -> c.ignoringAntMatchers("/api/**"));
+
+        http.authorizeRequests().mvcMatchers("/api/**").permitAll();
+
         http.formLogin();
     }
 }

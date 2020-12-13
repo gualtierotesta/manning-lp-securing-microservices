@@ -1,7 +1,7 @@
 package it.gualtierotesta.manning.liveproject.authserver.adapter.storage;
 
 import it.gualtierotesta.manning.liveproject.authserver.application.port.out.UsersStoragePort;
-import it.gualtierotesta.manning.liveproject.authserver.domain.AppUser;
+import it.gualtierotesta.manning.liveproject.authserver.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,18 +18,17 @@ public class UsersStorageService implements UsersStoragePort {
     private final UsersRepository repository;
 
     @Override
-    public Collection<AppUser> listAll() {
+    public Collection<User> listAll() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
-            .map(this::mapper)
+            .map(e -> e.map())
             .collect(Collectors.toUnmodifiableList());
     }
 
-    private AppUser mapper(UserEntity pUserEntity) {
-        return AppUser.builder()
-            .userId(pUserEntity.getId())
-            .username(pUserEntity.getUsername())
-            .password(pUserEntity.getPassword())
-            .authority(pUserEntity.getAuthority())
-            .build();
+    @Override
+    public User create(final User pUser) {
+        UserEntity ent = UserEntity.from(pUser);
+        UserEntity saveEntity = repository.save(ent);
+        return saveEntity.map();
     }
+
 }
