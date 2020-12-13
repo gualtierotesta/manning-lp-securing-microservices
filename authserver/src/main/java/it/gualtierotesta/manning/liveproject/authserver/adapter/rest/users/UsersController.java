@@ -1,4 +1,4 @@
-package it.gualtierotesta.manning.liveproject.authserver.adapter.rest;
+package it.gualtierotesta.manning.liveproject.authserver.adapter.rest.users;
 
 import it.gualtierotesta.manning.liveproject.authserver.application.port.in.UsersServicePort;
 import it.gualtierotesta.manning.liveproject.authserver.domain.User;
@@ -13,7 +13,7 @@ import java.util.Collection;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Slf4j
-public class UserController {
+public class UsersController {
 
     private final UsersServicePort usersService;
 

@@ -14,15 +14,15 @@ import java.util.Collection;
 @Slf4j
 class UsersService implements UsersServicePort {
 
-    private final UsersStoragePort usersStorage;
+    private final UsersStoragePort storage;
 
     @Override
     public Collection<User> listAll() {
-        return usersStorage.listAll();
+        return storage.listAll();
     }
 
     @Override
     public User createNewUser(final User pUser) {
-        return usersStorage.create(pUser);
+        return storage.create(pUser);
     }
 }

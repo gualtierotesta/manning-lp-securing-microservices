@@ -1,4 +1,4 @@
-package it.gualtierotesta.manning.liveproject.authserver.adapter.rest;
+package it.gualtierotesta.manning.liveproject.authserver.adapter.rest.users;
 
 import it.gualtierotesta.manning.liveproject.authserver.domain.User;
 import lombok.Data;

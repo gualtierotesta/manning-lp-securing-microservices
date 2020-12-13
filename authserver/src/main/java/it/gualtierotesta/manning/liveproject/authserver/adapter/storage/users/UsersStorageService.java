@@ -1,4 +1,4 @@
-package it.gualtierotesta.manning.liveproject.authserver.adapter.storage;
+package it.gualtierotesta.manning.liveproject.authserver.adapter.storage.users;
 
 import it.gualtierotesta.manning.liveproject.authserver.application.port.out.UsersStoragePort;
 import it.gualtierotesta.manning.liveproject.authserver.domain.User;
