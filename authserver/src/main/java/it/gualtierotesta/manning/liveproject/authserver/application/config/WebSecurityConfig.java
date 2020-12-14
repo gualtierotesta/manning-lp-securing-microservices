@@ -5,11 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * Web security configuration
@@ -19,21 +16,21 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /**
-     * In memory UserDetailsService with a dummy user
-     *
-     * @return the UserDetailsService bean
-     */
-    @Bean
-    public UserDetailsService uds() {
-        final var uds = new InMemoryUserDetailsManager();
-        final var u = User.withUsername("john")
-            .password("12345")
-            .authorities("read")
-            .build();
-        uds.createUser(u);
-        return uds;
-    }
+//    /**
+//     * In memory UserDetailsService with a dummy user
+//     *
+//     * @return the UserDetailsService bean
+//     */
+//    @Bean
+//    public UserDetailsService uds() {
+//        var uds = new InMemoryUserDetailsManager();
+//        var u = User.withUsername("john")
+//            .password("12345")
+//            .authorities("read")
+//            .build();
+//        uds.createUser(u);
+//        return uds;
+//    }
 
     /**
      * Define a NoOp password encoders as the default password encoder
@@ -54,10 +51,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 
-        http.csrf(c -> c.ignoringAntMatchers("/api/**"));
-
-        http.authorizeRequests().mvcMatchers("/api/**").permitAll();
-
-        http.formLogin();
+        http.csrf(c -> c.ignoringAntMatchers("/api/**"))
+            .authorizeRequests()
+            .mvcMatchers("/api/**").permitAll()
+            .anyRequest().authenticated().and()
+            .formLogin();
     }
 }

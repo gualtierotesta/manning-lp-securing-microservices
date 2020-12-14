@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -20,15 +21,20 @@ public class UsersStorageService implements UsersStoragePort {
     @Override
     public Collection<User> listAll() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
-            .map(e -> e.map())
+            .map(e -> e.toDomain())
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     public User create(final User pUser) {
-        UserEntity ent = UserEntity.from(pUser);
-        UserEntity saveEntity = repository.save(ent);
-        return saveEntity.map();
+        UserEntity ent = UserEntity.fromDomain(pUser);
+        return repository.save(ent).toDomain();
+    }
+
+    @Override
+    public Optional<User> findByUsername(final String pUsername) {
+        return repository.findByUsername(pUsername)
+            .map(UserEntity::toDomain);
     }
 
 }

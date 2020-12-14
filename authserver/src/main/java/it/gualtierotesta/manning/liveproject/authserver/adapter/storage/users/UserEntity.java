@@ -11,22 +11,22 @@ import javax.persistence.*;
 class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     private String username;
     private String password;
     private String authority;
 
-    static UserEntity from(final User pUser) {
+    static UserEntity fromDomain(final User pUser) {
         UserEntity entity = new UserEntity();
         entity.username = pUser.getUsername();
-        entity.password =pUser.getPassword();
-        entity.authority=pUser.getAuthority();
+        entity.password = pUser.getPassword();
+        entity.authority = pUser.getAuthority();
         return entity;
     }
 
-     User map() {
+    User toDomain() {
         return User.builder()
             .userId(id)
             .username(username)
