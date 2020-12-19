@@ -71,14 +71,14 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
             // Password grant client
             .withClient("client-p")
-            .secret("secret")
+            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
             .authorizedGrantTypes("password", "refresh_token")
             .scopes("read")
             .and()
 
             // Authorization code client
             .withClient("client-ac")
-            .secret("secret")
+//            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
             .authorizedGrantTypes("authorization_code", "refresh_token")
             .scopes("read")
             .redirectUris("http://localhost:8080/home")
@@ -86,7 +86,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
             // Client credentials client
             .withClient("client-c")
-            .secret("secret")
+            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
             .authorizedGrantTypes("client_credentials")
             .scopes("info");
 

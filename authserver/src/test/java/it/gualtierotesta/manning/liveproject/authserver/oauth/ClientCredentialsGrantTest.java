@@ -30,7 +30,7 @@ class ClientCredentialsGrantTest {
             .queryParam("grant_type", "client_credentials")
             .queryParam("scope", "info")
             .with(httpBasic(CLIENT_ID, CLIENT_SECRET)))
-            // .andDo(MockMvcResultHandlers.print())
+//            .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.access_token").isNotEmpty())
             .andExpect(jsonPath("$.refresh_token").doesNotExist())
             .andExpect(status().isOk());
