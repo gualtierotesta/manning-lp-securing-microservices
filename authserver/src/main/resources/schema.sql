@@ -11,11 +11,19 @@ CREATE TABLE users
 
 DROP TABLE IF EXISTS clients;
 
-CREATE TABLE clients
+create table CLIENTS
 (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
-    client_id   VARCHAR(64) UNIQUE NOT NULL,
-    secret      VARCHAR(64)        NOT NULL,
-    grant_types VARCHAR(250)       NOT NULL,
-    scopes      VARCHAR(64)        NOT NULL
+    ID                     INTEGER auto_increment,
+    CLIENT_ID              VARCHAR(64)  not null,
+    SECRET                 VARCHAR(64)  not null,
+    GRANT_TYPES            VARCHAR(250) not null,
+    SCOPES                 VARCHAR(64)  not null,
+    ACCESS_TOKEN_VALIDITY  INTEGER,
+    AUTHORITIES            VARCHAR(255),
+    REDIRECT_URIS          VARCHAR(255),
+    REFRESH_TOKEN_VALIDITY INTEGER,
+    RESOURCE_IDS           VARCHAR(255),
+    PRIMARY KEY (ID),
+    UNIQUE (CLIENT_ID)
 );
+

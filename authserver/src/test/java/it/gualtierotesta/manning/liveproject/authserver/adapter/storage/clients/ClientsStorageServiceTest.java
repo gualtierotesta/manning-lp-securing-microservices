@@ -29,6 +29,6 @@ class ClientsStorageServiceTest {
     @Test
     void test1() {
         Collection<Client> clients = sut.listAll();
-        assertThat(clients).isEmpty();
+        assertThat(clients).hasSize(3);
     }
 }
