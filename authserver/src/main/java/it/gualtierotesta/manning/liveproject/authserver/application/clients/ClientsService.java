@@ -5,6 +5,7 @@ import it.gualtierotesta.manning.liveproject.authserver.application.port.out.Cli
 import it.gualtierotesta.manning.liveproject.authserver.domain.Client;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.Collection;
 public class ClientsService implements ClientsServicePort {
 
     private final ClientsStoragePort storage;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Collection<Client> listAll() {
@@ -23,6 +25,7 @@ public class ClientsService implements ClientsServicePort {
 
     @Override
     public Client createNewClient(final Client pClient) {
-        return storage.create(pClient);
+        String encryptedSecret = passwordEncoder.encode(pClient.getSecret());
+        return storage.create(pClient.withSecret(encryptedSecret));
     }
 }

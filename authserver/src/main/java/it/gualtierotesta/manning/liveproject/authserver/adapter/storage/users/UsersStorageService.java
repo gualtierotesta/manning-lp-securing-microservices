@@ -4,7 +4,6 @@ import it.gualtierotesta.manning.liveproject.authserver.application.port.out.Use
 import it.gualtierotesta.manning.liveproject.authserver.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -18,7 +17,6 @@ import java.util.stream.StreamSupport;
 public class UsersStorageService implements UsersStoragePort {
 
     private final UsersRepository repository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Collection<User> listAll() {
@@ -29,8 +27,7 @@ public class UsersStorageService implements UsersStoragePort {
 
     @Override
     public User create(final User pUser) {
-        String encryptedPassword = passwordEncoder.encode(pUser.getPassword());
-        UserEntity ent = UserEntity.fromDomain(pUser.withPassword(encryptedPassword));
+        UserEntity ent = UserEntity.fromDomain(pUser);
         return repository.save(ent).toDomain();
     }
 

@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -35,6 +36,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private String keyAlias;
 
     private final AuthenticationManager authenticationManager;
+    private final ClientDetailsService clientDetailsService;
 
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) {
@@ -61,34 +63,37 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     /**
      * OAuth clients registration
      *
-     * @param pConfigurer Client details configurer
+     * @param clients Client details configurer
      * @throws Exception if it fails
      */
     @Override
-    public void configure(ClientDetailsServiceConfigurer pConfigurer) throws Exception {
+    public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
 
-        pConfigurer.inMemory()
+        clients.withClientDetails(clientDetailsService);
 
-            // Password grant client
-            .withClient("client-p")
-            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
-            .authorizedGrantTypes("password", "refresh_token")
-            .scopes("read")
-            .and()
 
-            // Authorization code client
-            .withClient("client-ac")
+//        pConfigurer.inMemory()
+//
+//            // Password grant client
+//            .withClient("client-p")
 //            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
-            .authorizedGrantTypes("authorization_code", "refresh_token")
-            .scopes("read")
-            .redirectUris("http://localhost:8080/home")
-            .and()
-
-            // Client credentials client
-            .withClient("client-c")
-            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
-            .authorizedGrantTypes("client_credentials")
-            .scopes("info");
+//            .authorizedGrantTypes("password", "refresh_token")
+//            .scopes("read")
+//            .and()
+//
+//            // Authorization code client
+//            .withClient("client-ac")
+////            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
+//            .authorizedGrantTypes("authorization_code", "refresh_token")
+//            .scopes("read")
+//            .redirectUris("http://localhost:8080/home")
+//            .and()
+//
+//            // Client credentials client
+//            .withClient("client-c")
+//            .secret("$2y$12$4o2Lc32RR2G6rOrAMcsQr.ydvE/gT.H1ngHYir95.RwOs9bp/dsMW")
+//            .authorizedGrantTypes("client_credentials")
+//            .scopes("info");
 
     }
 

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -25,9 +26,14 @@ public class ClientsStorageService implements ClientsStoragePort {
     }
 
     @Override
-    public Client create(Client pClient) {
+    public Client create(final Client pClient) {
         ClientEntity ent = ClientEntity.fromDomain(pClient);
-        ClientEntity saveEntity = repository.save(ent);
-        return saveEntity.toDomain();
+        return repository.save(ent).toDomain();
+    }
+
+    @Override
+    public Optional<Client> findByClientId(final String pClientId) {
+        return repository.findByClientId(pClientId)
+            .map(ClientEntity::toDomain);
     }
 }

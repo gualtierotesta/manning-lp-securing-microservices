@@ -8,8 +8,13 @@ class NewClientPayload {
 
     private String clientId;
     private String secret;
-    private String grantTypes;
+    Integer accessTokenValiditySeconds;
+    Integer refreshTokenValiditySeconds;
     private String scopes;
+    private String redirectUris;
+    private String grantTypes;
+    private String resourceIds;
+    private String authorities;
 
     public Client map() {
         return Client.builder()

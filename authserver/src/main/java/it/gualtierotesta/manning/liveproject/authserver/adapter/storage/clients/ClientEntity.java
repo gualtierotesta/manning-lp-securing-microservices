@@ -20,19 +20,39 @@ public class ClientEntity {
     @Column(nullable = false)
     private String secret;
 
+    @Column(name = "access_token_validity")
+    Integer accessTokenValiditySeconds;
+
+    @Column(name = "refresh_token_validity")
+    Integer refreshTokenValiditySeconds;
+
+    @Column
+    private String scopes;
+
+    @Column(name = "redirect_uris")
+    String redirectUris;
+
     @Column(name = "grant_types", nullable = false)
     private String grantTypes;
 
-    @Column(nullable = false)
-    private String scopes;
+    @Column(name = "resource_ids")
+    String resourceIds;
+
+    @Column
+    String authorities;  // CSV
 
     static ClientEntity fromDomain(final Client pClient) {
         ClientEntity entity = new ClientEntity();
         entity.id = pClient.getId();
         entity.clientId = pClient.getClientId();
         entity.secret = pClient.getSecret();
-        entity.grantTypes = pClient.getGrantTypes();
+        entity.accessTokenValiditySeconds = pClient.getAccessTokenValiditySeconds();
+        entity.refreshTokenValiditySeconds = pClient.getRefreshTokenValiditySeconds();
         entity.scopes = pClient.getScopes();
+        entity.redirectUris = pClient.getRedirectUris();
+        entity.grantTypes = pClient.getGrantTypes();
+        entity.resourceIds = pClient.getResourceIds();
+        entity.authorities = pClient.getAuthorities();
         return entity;
     }
 
@@ -41,8 +61,13 @@ public class ClientEntity {
             .id(id)
             .clientId(clientId)
             .secret(secret)
-            .grantTypes(grantTypes)
+            .accessTokenValiditySeconds(accessTokenValiditySeconds)
+            .refreshTokenValiditySeconds(refreshTokenValiditySeconds)
             .scopes(scopes)
+            .redirectUris(redirectUris)
+            .grantTypes(grantTypes)
+            .resourceIds(resourceIds)
+            .authorities(authorities)
             .build();
     }
 }

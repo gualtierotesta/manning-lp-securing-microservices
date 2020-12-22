@@ -27,7 +27,7 @@ public class ClientsController {
     public ResponseEntity<Client> addClient(
         @RequestBody final NewClientPayload pPayload) {
 
-        log.debug("create new user: {}", pPayload);
+        log.debug("create new OAuth client: {}", pPayload);
         return ResponseEntity.ok(service.createNewClient(pPayload.map()));
     }
 
