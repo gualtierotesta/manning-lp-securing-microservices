@@ -10,9 +10,9 @@
     </parent>
     <groupId>it.gualtierotesta.manning.liveproject</groupId>
     <artifactId>authserver</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>authserver</name>
-    <description>Demo project for Spring Boot</description>
+    <version>1.0.0</version>
+    <name>Authorization Server</name>
+    <description>LiveProject Spring Security - Authorization Server</description>
 
     <properties>
         <java.version>11</java.version>
