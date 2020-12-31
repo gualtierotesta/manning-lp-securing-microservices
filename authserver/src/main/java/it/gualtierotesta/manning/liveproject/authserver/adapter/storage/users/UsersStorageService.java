@@ -27,8 +27,12 @@ public class UsersStorageService implements UsersStoragePort {
 
     @Override
     public User create(final User pUser) {
+        log.info("creating 1{}", pUser);
         UserEntity ent = UserEntity.fromDomain(pUser);
-        return repository.save(ent).toDomain();
+        log.info("creating 2{}", ent);
+        UserEntity save = repository.save(ent);
+        log.info("creating 3{}", save);
+        return save.toDomain();
     }
 
     @Override

@@ -42,6 +42,7 @@ public class OAuthClientsService implements ClientDetailsService {
     }
 
     private static ClientDetails mapTo(final Client pClient) {
+        log.debug("Client = {}", pClient);
         BaseClientDetails details = new BaseClientDetails();
         details.setClientId(pClient.getClientId());
         details.setClientSecret(pClient.getSecret());
@@ -53,6 +54,7 @@ public class OAuthClientsService implements ClientDetailsService {
             .stream()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toUnmodifiableSet()));
+        log.debug("details={}", details);
         return details;
     }
 

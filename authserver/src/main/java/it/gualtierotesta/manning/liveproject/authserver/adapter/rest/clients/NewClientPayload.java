@@ -20,8 +20,13 @@ class NewClientPayload {
         return Client.builder()
             .clientId(clientId)
             .secret(secret)
-            .grantTypes(grantTypes)
+            .accessTokenValiditySeconds(accessTokenValiditySeconds)
+            .refreshTokenValiditySeconds(refreshTokenValiditySeconds)
             .scopes(scopes)
+            .redirectUris(redirectUris)
+            .grantTypes(grantTypes)
+            .resourceIds(resourceIds)
+            .authorities(authorities)
             .build();
     }
 }
