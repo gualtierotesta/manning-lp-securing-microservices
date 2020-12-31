@@ -3,7 +3,11 @@ package it.gualtierotesta.manning.liveproject.businessserver.controllers;
 import it.gualtierotesta.manning.liveproject.businessserver.entities.HealthProfile;
 import it.gualtierotesta.manning.liveproject.businessserver.services.HealthProfileService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/profile")
@@ -22,8 +26,15 @@ public class HealthProfileController {
     }
 
     @GetMapping("/{username}")
-    public HealthProfile findHealthProfile(@PathVariable final String username) {
-        log.info("get profile for [{}]", username);
+    public HealthProfile findHealthProfile(
+            @AuthenticationPrincipal Principal pPrincipal,
+            @PathVariable final String username) {
+        JwtAuthenticationToken token = (JwtAuthenticationToken) pPrincipal;
+        log.info("get profile for [{}]:", username);
+        System.out.println("token.getName() = " + token.getName());
+        System.out.println("token = " + token);
+        System.out.println("token.getToken() = " + token.getToken());
+        System.out.println("token.getDetails() = " + token.getDetails());
         return healthProfileService.findHealthProfile(username);
     }
 
