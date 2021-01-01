@@ -54,7 +54,6 @@ public class OAuthClientsService implements ClientDetailsService {
             .stream()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toUnmodifiableSet()));
-        log.debug("details={}", details);
         return details;
     }
 

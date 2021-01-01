@@ -12,12 +12,12 @@ public class SecurityUser implements UserDetails {
     private final User user;
 
     public SecurityUser(final User pUser) {
-        this.user = pUser;
+        user = pUser;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of( () -> user.getAuthority());
+        return List.of(() -> user.getAuthority());
     }
 
     @Override
@@ -27,7 +27,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getPassword();
+        return user.getUsername();
     }
 
     @Override
