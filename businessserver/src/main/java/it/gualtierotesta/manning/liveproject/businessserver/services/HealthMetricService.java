@@ -5,6 +5,8 @@ import it.gualtierotesta.manning.liveproject.businessserver.entities.HealthProfi
 import it.gualtierotesta.manning.liveproject.businessserver.exceptions.NonExistentHealthProfileException;
 import it.gualtierotesta.manning.liveproject.businessserver.repositories.HealthMetricRepository;
 import it.gualtierotesta.manning.liveproject.businessserver.repositories.HealthProfileRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,22 +15,19 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class HealthMetricService {
 
     private final HealthMetricRepository healthMetricRepository;
     private final HealthProfileRepository healthProfileRepository;
 
-    public HealthMetricService(HealthMetricRepository healthMetricRepository, HealthProfileRepository healthProfileRepository) {
-        this.healthMetricRepository = healthMetricRepository;
-        this.healthProfileRepository = healthProfileRepository;
-    }
-
-    public void addHealthMetric(HealthMetric healthMetric) {
-        Optional<HealthProfile> profile = healthProfileRepository.findHealthProfileByUsername(healthMetric.getProfile().getUsername());
+    @PreAuthorize("#healthMetric.profile.username == authentication.principal.claims['user_name']")
+    public void addHealthMetric(final HealthMetric healthMetric) {
+        Optional<HealthProfile> profile =
+                healthProfileRepository.findHealthProfileByUsername(healthMetric.getProfile().getUsername());
 
         profile.ifPresentOrElse(
-                p ->
-                {
+                p -> {
                     healthMetric.setProfile(p);
                     healthMetricRepository.save(healthMetric);
                 },
@@ -38,11 +37,13 @@ public class HealthMetricService {
 
     }
 
-    public List<HealthMetric> findHealthMetricHistory(String username) {
+    @PreAuthorize("#username == authentication.principal.claims['user_name']")
+    public List<HealthMetric> findHealthMetricHistory(final String username) {
         return healthMetricRepository.findHealthMetricHistory(username);
     }
 
-    public void deleteHealthMetricForUser(String username) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteHealthMetricForUser(final String username) {
         Optional<HealthProfile> profile = healthProfileRepository.findHealthProfileByUsername(username);
 
         profile.ifPresentOrElse(healthMetricRepository::deleteAllForUser,

@@ -2,13 +2,16 @@ package it.gualtierotesta.manning.liveproject.businessserver.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -32,14 +35,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //.anyRequest().authenticated()
+
+                // All DELETE operations require ADMIN role
+                .mvcMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+
+                // All operations require USER or ADMIN role
                 .anyRequest().hasAnyRole("ADMIN", "USER")
+
                 .and()
                 .oauth2ResourceServer(c -> c.jwt(j -> {
                     j.decoder(jwtDecoder());
                     j.jwtAuthenticationConverter(jwtAuthenticationConverter());
                 }));
 
+    }
+
+    @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+        return new SecurityEvaluationContextExtension();
     }
 
     // Used to validate the JWT tokens via the public key
