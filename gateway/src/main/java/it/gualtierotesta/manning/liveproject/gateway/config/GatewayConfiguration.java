@@ -18,19 +18,21 @@ public class GatewayConfiguration {
     @Bean
     public RouteLocator routes(final RouteLocatorBuilder pBuilder) {
 
+        //@formatter:off
         return pBuilder.routes()
-            .route(ps -> ps
+            .route("metrics", ps -> ps
                 .path("/metric/**")
                 .uri(businessserverUri + "/metric"))
 
-            .route(ps -> ps
+            .route("profiles", ps -> ps
                 .path("/profile/**")
                 .uri(businessserverUri + "/profile"))
 
-            .route(ps -> ps
+            .route("advice", ps -> ps
                 .path("/advice/**")
                 .uri(businessserverUri + "/advice"))
 
             .build();
+        //@formatter:on
     }
 }

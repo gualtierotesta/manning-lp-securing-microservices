@@ -26,11 +26,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity pHttpSecurity) {
 
-        return pHttpSecurity.authorizeExchange()
-            .anyExchange().authenticated()
-            .and()
+        return pHttpSecurity
+            .authorizeExchange()
+
+            .anyExchange().authenticated().and()
+
             .oauth2ResourceServer()
             .jwt(c -> c.publicKey(publicKey()))
+
             .and().build();
     }
 
@@ -39,8 +42,8 @@ public class SecurityConfiguration {
             KeyFactory kFactory = KeyFactory.getInstance("RSA");
             X509EncodedKeySpec keySpecX509 = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKey.getBytes()));
             return (RSAPublicKey) kFactory.generatePublic(keySpecX509);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException("Problem loading the public key for token validation.");
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            throw new RuntimeException("Failed to process publi key", ex);
         }
     }
 
