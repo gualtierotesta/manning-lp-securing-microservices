@@ -1,4 +1,4 @@
-package it.gualtierotesta.manning.liveproject.gateway;
+package it.gualtierotesta.manning.liveproject.application;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.DisplayName;

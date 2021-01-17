@@ -1,4 +1,4 @@
-package it.gualtierotesta.manning.liveproject.gateway.config;
+package it.gualtierotesta.manning.liveproject.application.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteLocator;

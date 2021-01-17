@@ -1,4 +1,4 @@
-package it.gualtierotesta.manning.liveproject.gateway.config;
+package it.gualtierotesta.manning.liveproject.application.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
