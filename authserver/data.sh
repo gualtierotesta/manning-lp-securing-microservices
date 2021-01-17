@@ -17,6 +17,11 @@ curl -v -X POST 'http://localhost:8080/api/clients' \
     -H 'Content-Type: application/json' \
     -d '{"clientId": "client-c", "secret": "secret", "grantTypes": "client_credentials", "scopes":"info"}'
 
+## Client credentials client for Milestone 4
+curl -v -X POST 'http://localhost:8080/api/clients' \
+    -H 'Content-Type: application/json' \
+    -d '{"clientId": "client-advice", "secret": "secret", "grantTypes": "client_credentials", "scopes":"advice"}'
+
 curl -v 'http://localhost:8080/api/clients'
 
 ## Create Users
