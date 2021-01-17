@@ -24,12 +24,8 @@ public class HealthProfileController {
 
     @GetMapping("/{username}")
     public HealthProfile findHealthProfile(
-            @AuthenticationPrincipal Principal pPrincipal,
-            @PathVariable final String username) {
-//        JwtAuthenticationToken token = (JwtAuthenticationToken) pPrincipal;
-//        log.info("get profile for [{}]:", username);
-//        System.out.println("token.getPrincipal() = " +
-//        ((org.springframework.security.oauth2.jwt.Jwt) token.getPrincipal()).getClaimAsString("user_name"));
+        @AuthenticationPrincipal Principal pPrincipal,
+        @PathVariable final String username) {
 
         return healthProfileService.findHealthProfile(username);
     }

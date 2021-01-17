@@ -21,6 +21,7 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,17 +37,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
 
-                // All DELETE operations require ADMIN role
-                .mvcMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+            // All DELETE operations require ADMIN role
+            .mvcMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 
-                // All operations require USER or ADMIN role
-                .anyRequest().hasAnyRole("ADMIN", "USER")
+            // All operations require USER or ADMIN role
+            //     .anyRequest().hasAnyRole("ADMIN", "USER")
+            .anyRequest().authenticated()
 
-                .and()
-                .oauth2ResourceServer(c -> c.jwt(j -> {
-                    j.decoder(jwtDecoder());
-                    j.jwtAuthenticationConverter(jwtAuthenticationConverter());
-                }));
+            .and()
+            .oauth2ResourceServer(c -> c.jwt(j -> {
+                j.decoder(jwtDecoder());
+                j.jwtAuthenticationConverter(jwtAuthenticationConverter());
+            }));
 
     }
 
@@ -73,9 +75,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            log.debug("jwt = {}", jwt);
+            log.debug("jwt claims = {}", jwt.getClaims());
             List<String> authorities = (List<String>) jwt.getClaims().get("authorities");
-            return authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            return authorities != null ? authorities.stream().map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList()) :
+                Collections.emptyList();
         });
         return converter;
     }
